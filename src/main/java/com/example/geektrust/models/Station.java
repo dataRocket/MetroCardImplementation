@@ -8,5 +8,11 @@ public abstract class Station {
         this.name = name;
         this.type = type;
     }
-    abstract String summary();
+    public abstract String summary();
+
+    public abstract boolean addToPersonLedger(PersonType personType);
+
+    public abstract boolean addToMoneyLedger(Double amount, String type);
+
+
 }

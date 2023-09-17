@@ -1,10 +1,18 @@
 package com.example.geektrust.models;
 
 public class Person {
-    private final String name;
+    private final PersonType type;
     private final String id;
-     public Person(String name, String id) {
-         this.name = name;
+     public Person(PersonType type, String id) {
+         this.type = type;
          this.id = id;
      }
+
+    public PersonType getType() {
+        return type;
+    }
+
+    public String getId() {
+        return id;
+    }
 }

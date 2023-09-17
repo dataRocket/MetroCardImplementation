@@ -7,10 +7,10 @@ import java.util.TreeMap;
 public class CentralStation extends Station{
 
     private int numOfPassengers;
-    private Map<String, Integer> passengerLedger;
+    private Map<PersonType, Integer> passengerLedger;
 
     // easy to get discount or total money also it is easily summarizable ?? is it though?
-    private Map<String, Integer> moneyLedger;
+    private Map<String, Double> moneyLedger;
     public CentralStation(String name, String type) {
         super(name, type);
         passengerLedger = new TreeMap<>();
@@ -18,6 +18,21 @@ public class CentralStation extends Station{
     }
     @Override
     public String summary() {
-        return null;
+        moneyLedger.forEach((key, value) -> System.out.println(key + "  " + value));
+        passengerLedger.forEach((key, value) -> System.out.println(key + "  " + value));
+        return "SUCCESS";
+    }
+
+
+    public boolean addToPersonLedger(PersonType personType) {
+        passengerLedger.put(personType, passengerLedger.getOrDefault(personType, 0) + 1);
+        return true;
+    }
+
+    public boolean addToMoneyLedger(Double amount, String type) {
+        Double currAmount = moneyLedger.getOrDefault(type, 0.0);
+        currAmount += amount;
+        moneyLedger.put(type, amount);
+        return true;
     }
 }
