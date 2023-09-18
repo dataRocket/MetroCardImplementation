@@ -14,5 +14,7 @@ public abstract class Station {
 
     public abstract boolean addToMoneyLedger(Double amount, String type);
 
+    public abstract String getName();
+
 
 }

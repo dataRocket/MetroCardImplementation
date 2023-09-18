@@ -1,6 +1,7 @@
 package com.example.geektrust.models;
 
 import java.util.AbstractMap;
+import java.util.Map;
 import java.util.Optional;
 
 public class MetroCard {
@@ -18,6 +19,8 @@ public class MetroCard {
         this.personId = personId;
         this.id = id;
         this.isActive = true;
+        this.balance = 0.0;
+        this.journeys = 0;
     }
 
     public Double getBalance() {
@@ -29,23 +32,23 @@ public class MetroCard {
         return new AbstractMap.SimpleEntry("SUCCESS", this.balance);
     }
 
-    public Optional<Journey> addJourney(Station originStation) {
+    public Journey addJourney(Station originStation, Station toStation, boolean isReturnJourney) {
         this.journeys += 1;
-        Optional<Journey> lastJourney = this.getJourney();
-        lastJourney.ifPresent(element-> {
-            if (!element.isTwoWayComplete() && element.getToStation().equals(originStation)) {
-                Journey currJourney = new Journey(originStation, null);
-                currJourney.setIsTwoWayComplete(true);
-            }
-        });
-        return Optional.of(this.lastJourney);
+        Journey currJourney = new Journey(originStation, toStation);
+        currJourney.setIsTwoWayComplete(isReturnJourney);
+        this.lastJourney = currJourney;
+        return this.lastJourney;
     }
 
-    public boolean isReturnJourneyCompleted() {
-        return this.lastJourney.isTwoWayComplete();
+    public boolean isReturnJourney(Station originStation) {
+        Journey lastJourney = this.getJourney();
+        return this.getJourney() != null
+                && !this.getJourney().isTwoWayComplete()
+                && this.getJourney().getToStation().equals(originStation);
+
     }
 
-    public Optional<Journey> getJourney() {
-        return Optional.of(this.lastJourney);
+    public Journey getJourney() {
+        return this.lastJourney;
     }
 }

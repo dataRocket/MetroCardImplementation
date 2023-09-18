@@ -14,9 +14,9 @@ public class FareServiceImpl {
 
     public FareServiceImpl() {
         this.fareDetails = new EnumMap<>(PersonType.class);
-        fareDetails.put(PersonType.SENIOR, 100.0);
+        fareDetails.put(PersonType.SENIOR_CITIZEN, 100.0);
         fareDetails.put(PersonType.ADULT, 200.0);
-        fareDetails.put(PersonType.CHILD, 50.0);
+        fareDetails.put(PersonType.KID, 50.0);
     }
     public Double getFareDetails(Person p){
         return fareDetails.get(p.getType());
