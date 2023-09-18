@@ -1,9 +1,10 @@
 package com.example.geektrust.models;
 
-import java.util.EnumMap;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.TreeMap;
+import com.example.geektrust.util.MapUtils;
+
+import java.util.*;
+import java.util.stream.Collectors;
+
 
 public class Airport extends Station{
 
@@ -16,6 +17,8 @@ public class Airport extends Station{
         super(name, type);
         passengerLedger = new EnumMap<>(PersonType.class);
         moneyLedger = new HashMap<>();
+        moneyLedger.put("DISCOUNT", 0.0);
+        moneyLedger.put("FARE", 0.0);
     }
 
     public boolean addToPersonLedger(PersonType personType) {
@@ -24,14 +27,29 @@ public class Airport extends Station{
     }
 
     public boolean addToMoneyLedger(Double amount, String type) {
+           // System.out.println("adding money to ledger airprot: "+ amount);
             Double currAmount = moneyLedger.getOrDefault(type, 0.0);
             currAmount += amount;
-            moneyLedger.put(type, amount);
+            moneyLedger.put(type, currAmount);
             return true;
     }
+
+    @Override
+    public String getName() {
+        return this.name;
+    }
+
     @Override
     public String summary() {
-        return null;
+        Map<PersonType, Integer> sortedPassengers = MapUtils.sortByValue(this.passengerLedger);
+        String totalCollection = "TOTAL_COLLECTION"+" "+"AIRPORT"+" ";
+        List<Double> collection = moneyLedger.values().stream().toList();
+        String result = collection.stream().map(Object::toString).collect(Collectors.joining(" "));
+        totalCollection += result;
+        System.out.println(totalCollection);
+        System.out.println("PASSENGER_TYPE_SUMMARY");
+        sortedPassengers.forEach((key, value) -> System.out.println(key + "  " + value));
+        return "SUCCESS";
     }
 
 
